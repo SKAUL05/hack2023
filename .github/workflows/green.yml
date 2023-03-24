@@ -19,3 +19,6 @@ jobs:
       run: |
         memray run intervals.py
         memray stats memray-*.bin
+    - name: Calculate Green Score
+      run: |
+        python score.py
