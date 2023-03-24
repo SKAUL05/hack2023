@@ -1,9 +1,11 @@
-from utilities import timer
+import time
+from codecarbon import track_emissions
 
 
 # Given a collection of intervals, merge all overlapping intervals.
-@timer
+@track_emissions(project_name="green")
 def merge(intervals):
+    time.sleep(30)
     intervals.sort(key=lambda x: x[0])
     merged = []
     for interval in intervals:

@@ -1,10 +1,8 @@
 # Given an array Arr[] of N integers.
 # Find the contiguous sub-array(containing at least one number) which has the maximum sum and return its sum.
-from utilities import timer
 
 
 # Find the contiguous sub-array with the maximum sum and return its sum
-@timer
 def maxSubArraySum(a, size):
     max_so_far = a[0]
     curr_max = a[0]
