@@ -21,10 +21,10 @@ with open('emissions.csv', mode='r') as file:
     # displaying the contents of the CSV file
     for lines in csv_file:
         print(f"{Fore.GREEN}TimeStamp: {lines[0]}")
-        print(f"{Fore.GREEN}Duration: {lines[3]} seconds")
-        print(f"{Fore.GREEN}Energy Consumption: {lines[12]} W")
-        print(f"{Fore.GREEN}Emissions: {lines[4]} kg")
-        print(f"{Fore.GREEN}Emission Rate{lines[5]} per second")
+        print(f"{Fore.GREEN}Duration: {round(float(lines[3]),5)} seconds")
+        print(f"{Fore.GREEN}Energy Consumption: {round(float(lines[12]),5)} W")
+        print(f"{Fore.GREEN}Emissions: {round(float(lines[4]),5)} kg")
+        print(f"{Fore.GREEN}Emission Rate: {round(float(lines[5]),5)} per second")
 
         # Estimated energy consumption of the computer running the script in watts
         energy_consumption = float(lines[12]) * 1000
@@ -45,5 +45,5 @@ with open('emissions.csv', mode='r') as file:
         green_score = renewable_energy / script_runtime
 
         # Print the results
-        print(f"{Fore.RED}Carbon footprint: {emissions} kg CO2")
-        print(f"{Fore.GREEN}Green energy score: {green_score} kW")
+        print(f"{Fore.RED}Carbon footprint: {round(emissions,5)} kg CO2")
+        print(f"{Fore.GREEN}Green energy score: {round(green_score,5)} kW")
