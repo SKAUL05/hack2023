@@ -61,10 +61,12 @@ jobs:
       with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Refactor code to improve Green Score"
-          title: ${{ github.event.pull_request.title }} - Green Update
+          title: "Gree Update"
           body: |
             "Pull Request refactored.\n\n
             If you're happy with these changes, merge this Pull Request using the Squash and merge strategy."
+          run: |
+            git fetch origin master:refs/remotes/origin/master
           branch: green-update/feature/new
           base: feature/new
           labels: green
