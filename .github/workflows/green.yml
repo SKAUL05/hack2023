@@ -66,7 +66,7 @@ jobs:
             "Pull Request refactored.\n\n
             If you're happy with these changes, merge this Pull Request using the Squash and merge strategy."
           run: |
-            git fetch origin master:refs/remotes/origin/master
+            git fetch origin main:refs/remotes/origin/main
           branch: green-update/feature/new
           base: feature/new
           labels: green
