@@ -17,33 +17,43 @@ with open('emissions.csv', mode='r') as file:
 
     # Carbon dioxide emission factor of the region (kg CO2/kWh)
     co2_factor = 0.5
+    duration = 0
+    energy = 0
+    emissions = 0
+    emission_rate = 0
 
     # displaying the contents of the CSV file
     for lines in csv_file:
-        print(f"{Fore.GREEN}TimeStamp: {lines[0]}")
-        print(f"{Fore.GREEN}Duration: {round(float(lines[3]),5)} seconds")
-        print(f"{Fore.GREEN}Energy Consumption: {round(float(lines[12]),5)} W")
-        print(f"{Fore.GREEN}Emissions: {round(float(lines[4]),5)} kg")
-        print(f"{Fore.GREEN}Emission Rate: {round(float(lines[5]),5)} per second")
+        timestamp = lines[0]
+        duration += float(lines[3])
+        energy += float(lines[12])
+        emissions += float(lines[4])
+        emission_rate += float(lines[5])
 
-        # Estimated energy consumption of the computer running the script in watts
-        energy_consumption = float(lines[12]) * 1000
+    print(f"{Fore.GREEN}TimeStamp: {timestamp}")
+    print(f"{Fore.GREEN}Duration: {round(duration,5)} seconds")
+    print(f"{Fore.GREEN}Energy Consumption: {round(energy,5)} W")
+    print(f"{Fore.GREEN}Emissions: {round(emissions,5)} kg")
+    print(f"{Fore.GREEN}Emission Rate: {round(emission_rate,5)} per second")
 
-        # Estimated time the script runs in hours
-        script_runtime = (float(lines[3]) * 1000)//3600
+    # Estimated energy consumption of the computer running the script in watts
+    energy_consumption = energy * 1000
 
-        # Calculate the energy consumption in kWh
-        energy_consumed = energy_consumption * script_runtime / 1000
+    # Estimated time the script runs in hours
+    script_runtime = (duration * 1000)//3600
 
-        # Calculate the greenhouse gas emissions of the energy consumption
-        emissions = energy_consumed * co2_factor
+    # Calculate the energy consumption in kWh
+    energy_consumed = energy_consumption * script_runtime / 1000
 
-        # Calculate the proportion of renewable energy used
-        renewable_energy = energy_consumed * renewable_proportion
+    # Calculate the greenhouse gas emissions of the energy consumption
+    emissions = energy_consumed * co2_factor
 
-        # Calculate the green energy score
-        green_score = renewable_energy / script_runtime
+    # Calculate the proportion of renewable energy used
+    renewable_energy = energy_consumed * renewable_proportion
 
-        # Print the results
-        print(f"{Fore.RED}Carbon footprint: {round(emissions,5)} kg CO2")
-        print(f"{Fore.GREEN}Green energy score: {round(green_score,5)} kW")
+    # Calculate the green energy score
+    green_score = renewable_energy / script_runtime
+
+    # Print the results
+    print(f"{Fore.RED}Carbon footprint: {round(emissions,5)} kg CO2")
+    print(f"{Fore.GREEN}Green energy score: {round(green_score,5)} kW")

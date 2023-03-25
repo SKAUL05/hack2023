@@ -2,9 +2,8 @@ name: Calculate Green Score
 
 on: [pull_request]
 jobs:
-  build:
+  green_score:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
@@ -17,8 +16,11 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Calculate Memory Usage
       run: |
-        memray run intervals.py
-        memray stats memray-*.bin
+        memray run src/*.py
+        echo "*************** Memory Stats ***************"
+        memray stats src/memray-*.bin
+        echo "*************** Memory Tree ****************"
+        memray tree src/memray-*.bin
     - name: Calculate Green Score
       run: |
         python score.py
