@@ -66,5 +66,5 @@ jobs:
             "Pull Request refactored.\n\n
             If you're happy with these changes, merge this Pull Request using the Squash and merge strategy."
           branch: green-update/${{ github.head_ref }}
-          base: ${{ github.head_ref }}
+          base: feature/new
           labels: green
