@@ -1,5 +1,7 @@
+
+
+# Memory Efficient Alternative
 from codecarbon import track_emissions
-import time
 
 # Merge Sort Algorithm
 @track_emissions(project_name="green")
@@ -29,8 +31,6 @@ def merge_list(left, right):
 # Merge Intervals Algorithm
 @track_emissions(project_name="green")
 def merge_intervals(intervals):
-    print("Merging intervals...")
-    time.sleep(30)
     intervals.sort(key=lambda x: x[0])
     merged = []
     for interval in intervals:
@@ -52,6 +52,7 @@ if __name__ == "__main__":
     intervals = [[1,3],[2,6],[8,10],[15,18]]
     print("Given intervals are", end="\n")
     print(intervals)
+    print("Merging intervals...")
     intervals = merge_intervals(intervals)
     print("Merged intervals are", end="\n")
     print(intervals)
