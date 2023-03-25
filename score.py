@@ -18,14 +18,14 @@ def draw_tree(tree_height, trunk_width):
         print(Fore.GREEN + ' ' * (tree_height - i - 1) + '*' * (i * 2 + 1))
 
     # Print the trunk of the tree
-    for i in range(trunk_width):
+    for _ in range(trunk_width):
         print(Fore.BLUE + ' ' * (tree_height - 1 - trunk_width // 2) + '|' * trunk_width)
         
 def get_green_score():
     # opening the CSV file
-    with open('emissions.csv', mode='r') as file:
+    with open('emissions.csv', mode='r') as filee:
         # reading the CSV file
-        csv_file = csv.reader(file)
+        csv_file = csv.reader(filee)
         next(csv_file, None)
 
         # Proportion of renewable energy in the power grid
@@ -77,9 +77,9 @@ def get_green_score():
         if os.path.isfile("emissions.json"):
             with open("emissions.json", "r") as f:
                 data = json.load(f)
-                print(Fore.GREEN + "New Carbon footprint: {} kg CO2".format(round((data["CARBON_FOOTPRINT"]-emissions), 5)))
-                print(Fore.GREEN + "New Green Energy Score: {} kW".format(round((data["ENERGY_SCORE"]-green_score), 5)))
-                print(Fore.BLUE + ".......Congratulations on saving 1 banyan tree!......")
+                print(f'{Fore.GREEN}New Carbon footprint: {round(data["CARBON_FOOTPRINT"] - emissions, 5)} kg CO2')
+                print(f'{Fore.GREEN}New Green Energy Score: {round(data["ENERGY_SCORE"] - green_score, 5)} kW')
+                print(f"{Fore.BLUE}.......Congratulations on Saving a banyan tree!......")
                 draw_tree(12,6)
         else:
             with open("emissions.json", "w") as f:
@@ -87,10 +87,10 @@ def get_green_score():
 
 
 def get_optimized_code(file_data):
-    print(Fore.BLUE + ".......Generating Memory Efficient Code Snippet......")
+    print(f"{Fore.BLUE}.......Generating Memory Efficient Code Snippet......")
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Provide a memory efficient alternative for following code snippet without removing import time: \n\n {}".format(file_data),
+        prompt=f"Provide a memory efficient alternative for following code snippet without removing import time: \n\n {file_data}",
         temperature=0.9,
         max_tokens=3000,
         top_p=1,
@@ -103,7 +103,6 @@ def get_optimized_code(file_data):
 
 if __name__ == "__main__":
     get_green_score()
-    if len(sys.argv) > 1:
-        if sys.argv[1] == "--optimize":
-            file = open("src/algo.py", "r")
-            get_optimized_code(file.read())
+    if len(sys.argv) > 1 and sys.argv[1] == "--optimize":
+        file = open("src/algo.py", "r")
+        get_optimized_code(file.read())
