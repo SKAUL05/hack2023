@@ -1,0 +1,70 @@
+name: Calculate Green Score
+
+on: [pull_request]
+env:
+  OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+
+jobs:
+  green_score:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Calculate Memory Usage
+      run: |
+        memray run src/*.py
+        echo "*************** Memory Stats ***************"
+        memray stats src/memray-*.bin
+        echo "*************** Memory Tree ****************"
+        memray tree src/memray-*.bin
+    - name: Calculate Green Score
+      run: |
+        python score.py --optimize
+    - name: Calculate Memory Usage and Green Score of Optimized File
+      run: |
+        rm emissions.csv
+        rm src/memray-*.bin 
+        rm src/algo.py
+        memray run src/*.py
+        echo "*************** Memory Stats ***************"
+        memray stats src/memray-*.bin
+        echo "*************** Memory Tree ****************"
+        memray tree src/memray-*.bin
+        python score.py
+        
+
+    - name: Create new branch and commit changes
+      run: |
+        rm emissions.csv
+        rm src/memray-*.bin
+        mv src/algo_optimized.py src/algo.py
+        git config --global user.name github-actions
+        git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'          
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+        git checkout -b green-update/${{ github.head_ref }}
+        git add .
+        git commit -m "Refactor code to improve Green Score"
+    - name: Push changes to new branch
+      uses: ad-m/github-push-action@master
+      with:
+        branch: green-update/${{ github.head_ref }}
+        github_token : ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Refactor code to improve Green Score"
+          title: ${{ github.event.pull_request.title }} - Green Update
+          body: |
+            "Pull Request refactored.\n\n
+            If you're happy with these changes, merge this Pull Request using the Squash and merge strategy."
+          branch: green-update/feature/new
+          base: feature/new
+          labels: green
