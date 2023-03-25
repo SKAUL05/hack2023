@@ -89,7 +89,7 @@ def get_green_score():
 
 
 def get_optimized_code(file_data):
-    print(f"{Fore.BLUE}.......Generating Memory Efficient Code Snippet......")
+    print(f"{Fore.BLUE}.......Generating Memory Efficient Code Using OpenAI (GPT 3)......")
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=f"Provide a memory efficient alternative for following code snippet without removing import time: \n\n {file_data}",
