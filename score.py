@@ -79,7 +79,7 @@ def get_green_score():
                 data = json.load(f)
                 print(Fore.GREEN + "New Carbon footprint: {} kg CO2".format(round((data["CARBON_FOOTPRINT"]-emissions), 5)))
                 print(Fore.GREEN + "New Green Energy Score: {} kW".format(round((data["ENERGY_SCORE"]-green_score), 5)))
-                print(Fore.BLUE + ".......Congratulations on Saving a banyan tree!......")
+                print(Fore.BLUE + ".......Congratulations on saving 1 banyan tree!......")
                 draw_tree(12,6)
         else:
             with open("emissions.json", "w") as f:
