@@ -42,6 +42,12 @@ jobs:
 
     - name: Create new branch and commit changes
       run: |
+        rm emissions.csv
+        rm src/memray-*.bin
+        mv src/algo_optimized.py src/algo.py
+        git config --global user.name github-actions
+        git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'          
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
         git checkout -b green-update/${GITHUB_REF##*/}
         git add .
         git commit -m "Refactor code to improve Green Score"
