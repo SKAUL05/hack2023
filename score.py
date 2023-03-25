@@ -68,7 +68,7 @@ def get_optimized_code(file_data):
     print(Fore.BLUE + ".......Generating Memory Efficient Code Snippet......")
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Provide a memory efficient alternative for following code snippet without removing any library: \n\n {}".format(file_data),
+        prompt="Provide a memory efficient alternative for following code snippet without removing import time: \n\n {}".format(file_data),
         temperature=0.9,
         max_tokens=3000,
         top_p=1,

@@ -1,4 +1,4 @@
 memray
 codecarbon~=2.1.4
 colorama~=0.4.6
-openai~=0.25.0
+openai==0.27.2
