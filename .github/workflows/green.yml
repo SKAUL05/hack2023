@@ -1,6 +1,9 @@
 name: Calculate Green Score
 
 on: [pull_request]
+env:
+  OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+
 jobs:
   green_score:
     runs-on: ubuntu-latest
@@ -23,4 +26,16 @@ jobs:
         memray tree src/memray-*.bin
     - name: Calculate Green Score
       run: |
+        python score.py --optimize
+    - name: Calculate Memory Usage and Green Score of Optimized File
+      run: |
+        rm emissions.csv
+        rm src/memray-*.bin 
+        rm src/algo.py
+        memray run src/*.py
+        echo "*************** Memory Stats ***************"
+        memray stats src/memray-*.bin
+        echo "*************** Memory Tree ****************"
+        memray tree src/memray-*.bin
         python score.py
+        

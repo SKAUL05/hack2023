@@ -1,6 +1,7 @@
 from codecarbon import track_emissions
 import time
 
+# Merge Sort Algorithm
 @track_emissions(project_name="green")
 def merge_sort(arr):
     if len(arr) <= 1:
@@ -25,6 +26,7 @@ def merge_list(left, right):
     result += right[j:]
     return result
 
+# Merge Intervals Algorithm
 @track_emissions(project_name="green")
 def merge_intervals(intervals):
     print("Merging intervals...")
