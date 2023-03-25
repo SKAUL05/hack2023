@@ -51,7 +51,10 @@ jobs:
         git checkout -b green-update/${GITHUB_REF##*/}
         git add .
         git commit -m "Refactor code to improve Green Score"
-        git push --set-upstream --force origin HEAD:green-update/${GITHUB_REF##*/}
+    - name: Push changes to new branch
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        branch: green-update/${GITHUB_REF##*/}
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
