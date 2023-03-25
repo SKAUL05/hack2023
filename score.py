@@ -2,6 +2,7 @@ import colorama
 import openai
 import os
 import sys
+import json
 from colorama import Fore
 
 #Initialize colorama
@@ -10,6 +11,16 @@ openai.api_key = os.getenv("OPENAI_API_KEY","")
 
 import csv
 
+
+def draw_tree(tree_height, trunk_width):
+    # Print the leaves of the tree
+    for i in range(tree_height):
+        print(Fore.GREEN + ' ' * (tree_height - i - 1) + '*' * (i * 2 + 1))
+
+    # Print the trunk of the tree
+    for i in range(trunk_width):
+        print(Fore.BLUE + ' ' * (tree_height - 1 - trunk_width // 2) + '|' * trunk_width)
+        
 def get_green_score():
     # opening the CSV file
     with open('emissions.csv', mode='r') as file:
@@ -62,6 +73,17 @@ def get_green_score():
         # Print the results
         print(f"{Fore.RED}Carbon footprint: {round(emissions,5)} kg CO2")
         print(f"{Fore.GREEN}Green energy score: {round(green_score,5)} kW")
+
+        if os.path.isfile("emissions.json"):
+            with open("emissions.json", "r") as f:
+                data = json.load(f)
+                print(Fore.GREEN + "New Carbon footprint: {} kg CO2".format(round((data["CARBON_FOOTPRINT"]-emissions), 5)))
+                print(Fore.GREEN + "New Green Energy Score: {} kW".format(round((data["ENERGY_SCORE"]-green_score), 5)))
+                print(Fore.BLUE + ".......Congratulations on Saving a banyan tree!......")
+                draw_tree(12,6)
+        else:
+            with open("emissions.json", "w") as f:
+                f.write(json.dumps({"CARBON_FOOTPRINT": emissions, "ENERGY_SCORE": green_score}))
 
 
 def get_optimized_code(file_data):
