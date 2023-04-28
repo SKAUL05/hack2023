@@ -1,6 +1,7 @@
 from codecarbon import track_emissions
 import time
 
+
 # Merge Sort Algorithm
 @track_emissions(project_name="green")
 def merge_sort(arr):
